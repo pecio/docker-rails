@@ -36,12 +36,21 @@ RUN /bin/bash -c -l 'rvm use 2.1.1'
 RUN /bin/bash -c -l 'gem install bundler --no-ri --no-rdoc'
 RUN /bin/bash -c -l 'bundle config path "$HOME/bundler"'
 
+# Create our Rails user
+RUN /usr/sbin/useradd -m -s /bin/bash rails
+
 # Add Rails app
 ADD . rails-app
 
 # Do not use app specified ruby
 RUN /bin/rm -f rails-app/.rvmrc rails-app/.versions.conf rails-app/.ruby-version
 RUN /bin/sed -i.orig '/^[[:space:]]*ruby/d' rails-app/Gemfile
+
+# Change ownership of directory
+RUN /bin/chown -R rails rails-app
+
+# Switch to rails user
+USER rails
 
 WORKDIR rails-app
 

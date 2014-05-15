@@ -23,21 +23,24 @@ RUN apt-get install -qy libpq-dev
 RUN apt-get install -qy nodejs
 
 # Partially fix /dev/fd problems
-# It still shows "cat: /dev/fd/63: No such file or directory" errors,
-# but RVM processes no longer crash
+# It still shows "cat: /dev/fd/63: No such file or directory" errors
+# sometimes, but RVM processes no longer crash.
 RUN echo "/bin/ln -sf /proc/self/fd /dev/fd" > /etc/profile.d/devfd.sh
 RUN chmod 0755 /etc/profile.d/devfd.sh
 
-# Install RVM
-RUN curl -sSL https://get.rvm.io | bash -s stable
-RUN /bin/bash -c -l 'rvm requirements'
-RUN /bin/bash -c -l 'rvm install 2.1.1'
-RUN /bin/bash -c -l 'rvm use 2.1.1'
+# Install RVM and latest MRI
+RUN /bin/bash -c -l 'curl -sSL https://get.rvm.io | bash -s stable --ruby'
+
+# Install and setup bundler
 RUN /bin/bash -c -l 'gem install bundler --no-ri --no-rdoc'
 RUN /bin/bash -c -l 'bundle config path "$HOME/bundler"'
 
+# Undo /dev/fd hack as it is not needed (and gives a permissions error)
+# when running under a normal user
+RUN /bin/rm -f /etc/profile.d/devfd.sh
+
 # Create our Rails user
-RUN /usr/sbin/useradd -m -s /bin/bash rails
+RUN /usr/sbin/useradd -m -s /bin/bash -g rvm rails
 
 # Add Rails app
 ADD . rails-app

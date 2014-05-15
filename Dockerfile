@@ -54,9 +54,9 @@ USER rails
 WORKDIR rails-app
 
 # Inject unicorn (if not there)
-RUN /bin/bash -c -l '/bin/grep -q "^[^#]*unicorn" Gemfile || echo "gem \"unicorn\"" >> Gemfile'
-# This lets us use a config file if it is there, use ours
-# otherwise
+RUN /bin/bash -c '/bin/grep -q "^[^#]*unicorn" Gemfile || echo "gem \"unicorn\"" >> Gemfile'
+
+# This lets us use a config file if it is there, use ours otherwise
 RUN /bin/bash -c '[[ -f config/unicorn.rb ]] || /bin/cp docker/extra/unicorn.rb config/unicorn.rb'
 
 # Install bundler
@@ -76,4 +76,4 @@ EXPOSE 3000
 VOLUME ["/rails-app/public", "/rails-app/logs"]
 
 # Setup command
-CMD ["/bin/bash", "-c", "-l", "RAILS_ENV=production bundle exec unicorn -p 3000 -c ./config/unicorn.rb"]
+CMD ["/bin/bash", "-c", "-l", "RAILS_ENV=production bundle exec unicorn -p 3000 -c config/unicorn.rb"]

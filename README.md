@@ -71,11 +71,30 @@ your environment.
 ## Stopping
 
 Run
+
     docker stop nginx_rails rails_app postgres_rails
 
 ## Subsequent starts
 
 Run
+
     docker start postgres_rails rails_app nginx_rails
 
-## Running
+## Running on fixed ports
+
+If you want to use specific ports, you need to specify them when first
+starting the nginx image.
+
+Remove the container, if you started it with `-P` as instructed above,
+with
+
+    docker stop nginx_rails
+    docker rm nginx_rails
+
+To start the nginx container in the standard ports, run
+
+    docker run -d -p 80:80 -p 443:443 --link rails_app:rails --volumes-from rails_app --name nginx_rails inginx_rails
+
+This will make the container listen in all host interfaces.
+Change the ports before the colons (:) if you want specific but
+different ports.

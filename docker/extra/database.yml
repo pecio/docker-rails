@@ -1,0 +1,8 @@
+production:
+  adapter: postgresql
+  encoding: unicode
+  host: postgresql
+  database: rails
+  pool: 5
+  username: rails
+  password: rails

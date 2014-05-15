@@ -1,0 +1,60 @@
+# Adapted from 
+# https://www.digitalocean.com/community/articles/how-to-deploy-rails-apps-using-unicorn-and-nginx-on-centos-6-5
+# and Ubuntu shipped /etc/nginx/sites-available/default
+upstream rails_app {
+  server rails:3000;
+}
+
+server {
+  listen 80;
+  server_name localhost;
+
+  root /rails-app/public;
+
+  try_files $uri/index.html $uri @rails_app;
+
+  location @rails_app {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Real-IP       $remote_addr;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+    proxy_pass http://rails_app;
+  }
+
+  error_page 500 502 503 504 /500.html;
+  client_max_body_size 4G;
+  keepalive_timeout 10;
+}
+
+server {
+  listen 443;
+  server_name localhost;
+
+  root /rails-app/public;
+
+  try_files $uri/index.html $uri @rails_app;
+
+  location @rails_app {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Real-IP       $remote_addr;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+    proxy_pass http://rails_app;
+  }
+
+  error_page 500 502 503 504 /500.html;
+  client_max_body_size 4G;
+  keepalive_timeout 10;
+
+  # SSL
+  ssl on;
+  ssl_certificate     cert.crt;
+  ssl_certificate_key cert.key;
+
+  ssl_session_timeout 5m;
+
+  ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers "HIGH:!aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES";
+  ssl_prefer_server_ciphers on;
+}

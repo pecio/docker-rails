@@ -18,8 +18,11 @@ and use Canonical supplied packages.
 
 ## Build and first start instructions
 
-Note I ommit the `sudo` in all commands: prepend it if you need it in
-your environment.
+Note I ommit the `sudo` in all `docker` commands: prepend it if you
+need it in your environment.
+
+0. Copy the `Dockerfile` file and `docker` directory to the _root_
+   of your Rails application.
 
 1. In the _root_ of the Rails application, build the Rails image
    (this is the longest step):

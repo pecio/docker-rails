@@ -17,7 +17,6 @@ RUN apt-get install -qy build-essential openssl libreadline6 libreadline6-dev \
                         libffi-dev
 
 # Install PostgreSQL client lib
-# Note we do not have a database - will be fixed
 RUN apt-get install -qy libpq-dev
 
 # Install nodejs, as coffeescript needs a JavaScript runtime

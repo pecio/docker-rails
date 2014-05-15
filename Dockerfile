@@ -31,10 +31,6 @@ RUN chmod 0755 /etc/profile.d/devfd.sh
 # Install RVM and latest MRI
 RUN /bin/bash -c -l 'curl -sSL https://get.rvm.io | bash -s stable --ruby'
 
-# Install and setup bundler
-RUN /bin/bash -c -l 'gem install bundler --no-ri --no-rdoc'
-RUN /bin/bash -c -l 'bundle config path "$HOME/bundler"'
-
 # Undo /dev/fd hack as it is not needed (and gives a permissions error)
 # when running under a normal user
 RUN /bin/rm -f /etc/profile.d/devfd.sh
@@ -62,6 +58,9 @@ RUN /bin/bash -c -l '/bin/grep -q "^[^#]*unicorn" Gemfile || echo "gem \"unicorn
 # This lets us use a config file if it is there, use ours
 # otherwise
 RUN /bin/bash -c '[[ -f config/unicorn.rb ]] || /bin/cp docker/extra/unicorn.rb config/unicorn.rb'
+
+# Install bundler
+RUN /bin/bash -c -l 'gem install bundler --no-ri --no-rdoc'
 
 # Install bundle
 RUN /bin/bash -c -l 'bundle install --without=development:test --deployment'

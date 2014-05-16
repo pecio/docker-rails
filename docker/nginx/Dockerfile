@@ -1,6 +1,8 @@
 # nginx as a frontend for a Rails application
 FROM ubuntu
+
 RUN apt-get update &&\
+    apt-get upgrade &&\
     apt-get install -qy nginx &&\
     echo "\ndaemon off;" >> /etc/nginx/nginx.conf
 

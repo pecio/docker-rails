@@ -12,6 +12,7 @@ FROM ubuntu:precise
 # Lastly, undo /dev/fd hack
 # Create rails user
 RUN apt-get update -q &&\
+    apt-get upgrade -qy &&\
     apt-get install -qy curl build-essential openssl libreadline6 \
       libreadline6-dev zlib1g zlib1g-dev libssl-dev libyaml-dev \
       libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf \

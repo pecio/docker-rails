@@ -5,25 +5,23 @@ FROM ubuntu:precise
 
 # Install cURL, Ruby requirements (https://gist.github.com/konklone/6662393),
 # PostgreSQL client lib and Node.js (for coffeescript and sass)
-RUN apt-get update -q &&\
-    apt-get install -qy curl build-essential openssl libreadline6 \
-    libreadline6-dev zlib1g zlib1g-dev libssl-dev libyaml-dev \
-    libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf \
-    libc6-dev ncurses-dev automake libtool bison subversion \
-    pkg-config gawk libgdbm-dev libffi-dev libpq-dev nodejs
-
 # Partially fix /dev/fd problems
 # (It still shows "cat: /dev/fd/63: No such file or directory" errors
 # sometimes, but RVM processes no longer crash.)
 # Install RVM and latest MRI
 # Lastly, undo /dev/fd hack
-RUN echo "/bin/ln -sf /proc/self/fd /dev/fd" > /etc/profile.d/devfd.sh &&\
+# Create rails user
+RUN apt-get update -q &&\
+    apt-get install -qy curl build-essential openssl libreadline6 \
+      libreadline6-dev zlib1g zlib1g-dev libssl-dev libyaml-dev \
+      libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf \
+      libc6-dev ncurses-dev automake libtool bison subversion \
+      pkg-config gawk libgdbm-dev libffi-dev libpq-dev nodejs &&\
+    echo "/bin/ln -sf /proc/self/fd /dev/fd" > /etc/profile.d/devfd.sh &&\
     chmod 0755 /etc/profile.d/devfd.sh &&\
     /bin/bash -c -l 'curl -sSL https://get.rvm.io | bash -s stable --ruby' &&\
-    /bin/rm -f /etc/profile.d/devfd.sh
-
-# Create our Rails user
-RUN /usr/sbin/useradd -m -s /bin/bash -g rvm rails
+    /bin/rm -f /etc/profile.d/devfd.sh &&\
+    /usr/sbin/useradd -m -s /bin/bash -g rvm rails
 
 # Add Rails app
 ADD . rails-app

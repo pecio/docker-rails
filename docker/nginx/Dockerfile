@@ -1,8 +1,9 @@
 # nginx as a frontend for a Rails application
 FROM ubuntu
-RUN apt-get update
-RUN apt-get install -qy nginx
-RUN echo "\ndaemon off;" >> /etc/nginx/nginx.conf
+RUN apt-get update &&\
+    apt-get install -qy nginx &&\
+    echo "\ndaemon off;" >> /etc/nginx/nginx.conf
+
 ADD default /etc/nginx/sites-enabled/default
 ADD cert.key /etc/nginx/
 ADD cert.crt /etc/nginx/

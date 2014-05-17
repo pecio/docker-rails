@@ -18,6 +18,5 @@ ADD cert.crt /etc/nginx/
 
 EXPOSE 80
 EXPOSE 443
-VOLUME ["/var/log/nginx"]
 
 CMD /usr/sbin/nginx

@@ -2,7 +2,7 @@
 FROM ubuntu
 
 RUN apt-get update &&\
-    apt-get upgrade &&\
+    apt-get upgrade -qy &&\
     apt-get install -qy postgresql-9.3
 
 # The following (the tricky part) is copied almost verbatim from

@@ -47,7 +47,7 @@ WORKDIR rails-app
 RUN /bin/bash -c '/bin/grep -q "^[^#]*unicorn" Gemfile || echo "gem \"unicorn\"" >> Gemfile' &&\
     /bin/bash -c '[[ -f config/unicorn.rb ]] || /bin/cp docker/extra/unicorn.rb config/unicorn.rb' &&\
     /bin/bash -c -l 'gem install bundler --no-ri --no-rdoc' &&\
-    /bin/bash -c -l 'bundle install --without=development:test --deployment' &&\
+    /bin/bash -c -l 'bundle install --without=development:test' &&\
     /bin/bash -c -l 'RAILS_ENV=production bundle exec rake assets:precompile' &&\
     /bin/cp -f docker/extra/database.yml config/database.yml
 

@@ -3,21 +3,14 @@
 # Based on http://blog.palominolabs.com/2014/05/12/introduction-to-docker-with-rails/
 FROM ubuntu
 
-# Install cURL, Ruby requirements (https://gist.github.com/konklone/6662393),
-# PostgreSQL client lib and Node.js (for coffeescript and sass)
-# Partially fix /dev/fd problems
-# (It still shows "cat: /dev/fd/63: No such file or directory" errors
-# sometimes, but RVM processes no longer crash.)
-# Install RVM and latest MRI
-# Lastly, undo /dev/fd hack
+# Install cURL PostgreSQL client lib and Node.js (for coffeescript and sass)
+# Fix /dev/fd problems
+# Install RVM, requirements and latest MRI
+# Undo /dev/fd hack
 # Create rails user
 RUN apt-get update -q &&\
     apt-get upgrade -qy &&\
-    apt-get install -qy curl build-essential openssl libreadline6 \
-      libreadline6-dev zlib1g zlib1g-dev libssl-dev libyaml-dev \
-      libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf \
-      libc6-dev ncurses-dev automake libtool bison subversion \
-      pkg-config gawk libgdbm-dev libffi-dev libpq-dev nodejs &&\
+    apt-get install -qy curl libpq-dev nodejs &&\
     echo "/bin/ln -sf /proc/self/fd /dev/fd" > /etc/profile.d/devfd.sh &&\
     chmod 0755 /etc/profile.d/devfd.sh &&\
     /bin/bash -c -l 'curl -sSL https://get.rvm.io | bash -s stable --ruby' &&\

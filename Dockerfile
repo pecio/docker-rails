@@ -1,7 +1,7 @@
 # Dockerfile for a Rails app
 #
 # Based on http://blog.palominolabs.com/2014/05/12/introduction-to-docker-with-rails/
-FROM ubuntu:precise
+FROM ubuntu
 
 # Install cURL, Ruby requirements (https://gist.github.com/konklone/6662393),
 # PostgreSQL client lib and Node.js (for coffeescript and sass)

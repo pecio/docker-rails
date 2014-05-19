@@ -7,9 +7,9 @@ environment:
 * A PostgreSQL 9.3 database
 * An [nginx](http://nginx.org/) frontend and SSL proxy
 
-The first image runs under Ubuntu 12.04 as I had trouble
-installing Ruby in 14.04; the other two run under Ubuntu 14.04
-and use Canonical supplied packages.
+The images run Ubuntu 14.04. The first one has latest MRI
+(currently 2.1.1) installed through RVM; the other two
+use Canonical supplied packages.
 
 > Note this is *not* a Docker tutorial. I assume you have a
 > Docker environment already running. Follow the superb

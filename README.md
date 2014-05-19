@@ -50,7 +50,7 @@ need it in your environment.
 6. Populate the DB with a one shot run of rake in the Rails image with the
    following long command:
 
-        docker run -t -i --rm --link postgres_rails:postgresql irails_app /bin/bash -c -l "RAILS_ENV=production bundle exec rake db:migrate"
+        docker run -t -i --rm --link postgres_rails:postgresql irails_app /bin/bash -c -l "bundle exec rake db:migrate"
 
 7. Start the Rails application server:
 

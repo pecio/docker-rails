@@ -31,6 +31,8 @@ USER rails
 
 WORKDIR rails-app
 
+ENV RACK_ENV production
+
 # Inject unicorn (if not there)
 # Use a config file if it is there, use ours otherwise
 # Inject pg (if not there)
@@ -43,7 +45,7 @@ RUN /bin/grep -q "^[^#]*unicorn" Gemfile || echo 'gem "unicorn"' >> Gemfile &&\
     /bin/grep -q "^[^#]*\bpg\b" Gemfile || echo 'gem "pg"' >> Gemfile &&\
     /bin/bash -c -l 'gem install bundler --no-ri --no-rdoc' &&\
     /bin/bash -c -l 'bundle install --without=development:test' &&\
-    /bin/bash -c -l 'RAILS_ENV=production bundle exec rake assets:precompile' &&\
+    /bin/bash -c -l 'bundle exec rake assets:precompile' &&\
     /bin/cp -f docker/extra/database.yml config/database.yml
 
 # Expose app
@@ -51,4 +53,4 @@ EXPOSE 3000
 VOLUME ["/rails-app/public", "/rails-app/logs"]
 
 # Setup command
-CMD ["/bin/bash", "-c", "-l", "RAILS_ENV=production bundle exec unicorn -p 3000 -c config/unicorn.rb"]
+CMD ["/bin/bash", "-c", "-l", "bundle exec unicorn -p 3000 -c config/unicorn.rb"]

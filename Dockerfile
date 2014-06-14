@@ -23,6 +23,7 @@ RUN /bin/rm -f rails-app/.rvmrc rails-app/.versions.conf rails-app/.ruby-version
 
 # Switch to rails user
 USER rails
+ENV HOME /home/rails
 
 WORKDIR rails-app
 

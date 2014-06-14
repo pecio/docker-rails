@@ -1,13 +1,10 @@
 # PostgreSQL 9.3 server for Rails
 FROM ubuntu:latest
 
-# Remove debconf warnings
-ENV DEBIAN_FRONTEND noninteractive
-
 # Update Ubuntu and install PostgreSQL
 RUN apt-get update &&\
-    apt-get upgrade -qy &&\
-    apt-get install -qy postgresql-9.3
+    DEBIAN_FRONTEND=noninteractive apt-get upgrade -qy &&\
+    DEBIAN_FRONTEND=noninteractive apt-get install -qy postgresql-9.3
 
 # The following (the tricky part) is copied almost verbatim from
 # docker.io example (http://docs.docker.io/examples/postgresql_service/)

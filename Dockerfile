@@ -3,19 +3,15 @@
 # Based on http://blog.palominolabs.com/2014/05/12/introduction-to-docker-with-rails/
 FROM ubuntu:latest
 
-# Remove debconf warnings
-ENV DEBIAN_FRONTEND noninteractive
-
 # Update Ubuntu
-# Install RVM dependencies
-# Install cURL PostgreSQL client lib and Node.js (for coffeescript and sass)
+# Install RVM dependencies, cURL, PostgreSQL client and Node.js (for coffeescript and sass)
 # Create rails user
 RUN apt-get update -q &&\
-    apt-get upgrade -qy &&\
-    apt-get install -qy build-essential patch gawk g++ make patch libreadline6-dev \
-      libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev \
-      automake libtool bison pkg-config libffi-dev &&\
-    apt-get install -qy curl libpq-dev nodejs &&\
+    DEBIAN_FRONTEND=noninteractive apt-get upgrade -qy &&\
+    DEBIAN_FRONTEND=noninteractive apt-get install -qy build-essential patch \
+      gawk g++ make patch libreadline6-dev libyaml-dev libsqlite3-dev sqlite3 \
+      autoconf libgdbm-dev libncurses5-dev automake libtool bison pkg-config \
+      libffi-dev curl libpq-dev nodejs &&\
     /usr/sbin/useradd -m -s /bin/bash rails
 
 # Add Rails app

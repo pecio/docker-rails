@@ -4,17 +4,12 @@
 FROM ubuntu
 
 # Install cURL PostgreSQL client lib and Node.js (for coffeescript and sass)
-# Fix /dev/fd problems
 # Install RVM, requirements and latest MRI
-# Undo /dev/fd hack
 # Create rails user
 RUN apt-get update -q &&\
     apt-get upgrade -qy &&\
     apt-get install -qy curl libpq-dev nodejs &&\
-    echo "/bin/ln -sf /proc/self/fd /dev/fd" > /etc/profile.d/devfd.sh &&\
-    chmod 0755 /etc/profile.d/devfd.sh &&\
     /bin/bash -c -l 'curl -sSL https://get.rvm.io | bash -s stable --ruby' &&\
-    /bin/rm -f /etc/profile.d/devfd.sh &&\
     /usr/sbin/useradd -m -s /bin/bash -g rvm rails
 
 # Add Rails app

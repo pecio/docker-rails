@@ -1,5 +1,5 @@
 # nginx as a frontend for a Rails application
-FROM ubuntu
+FROM ubuntu:latest
 
 # Update packages
 # Install nginx

@@ -1,7 +1,7 @@
 # Dockerfile for a Rails app
 #
 # Based on http://blog.palominolabs.com/2014/05/12/introduction-to-docker-with-rails/
-FROM ubuntu
+FROM ubuntu:latest
 
 # Update Ubuntu
 # Install RVM dependencies

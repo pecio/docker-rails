@@ -1,5 +1,5 @@
 # PostgreSQL 9.3 server for Rails
-FROM ubuntu
+FROM ubuntu:latest
 
 RUN apt-get update &&\
     apt-get upgrade -qy &&\

@@ -1,6 +1,10 @@
 # PostgreSQL 9.3 server for Rails
 FROM ubuntu:latest
 
+# Remove debconf warnings
+ENV DEBIAN_FRONTEND noninteractive
+
+# Update Ubuntu and install PostgreSQL
 RUN apt-get update &&\
     apt-get upgrade -qy &&\
     apt-get install -qy postgresql-9.3

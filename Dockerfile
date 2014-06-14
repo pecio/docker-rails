@@ -3,6 +3,9 @@
 # Based on http://blog.palominolabs.com/2014/05/12/introduction-to-docker-with-rails/
 FROM ubuntu:latest
 
+# Remove debconf warnings
+ENV DEBIAN_FRONTEND noninteractive
+
 # Update Ubuntu
 # Install RVM dependencies
 # Install cURL PostgreSQL client lib and Node.js (for coffeescript and sass)

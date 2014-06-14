@@ -1,6 +1,9 @@
 # nginx as a frontend for a Rails application
 FROM ubuntu:latest
 
+# Remove debconf warnings
+ENV DEBIAN_FRONTEND noninteractive
+
 # Update packages
 # Install nginx
 # Redirect access_log to stdout and error_log to stderr

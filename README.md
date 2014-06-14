@@ -7,8 +7,8 @@ environment:
 * A PostgreSQL 9.3 database
 * An [nginx](http://nginx.org/) frontend and SSL proxy
 
-The images run Ubuntu 14.04. The first one has latest MRI
-(currently 2.1.1) installed through RVM; the other two
+The images run latest Ubuntu (currently 14.04). The first one has
+latest MRI (currently 2.1.2) installed through RVM; the other two
 use Canonical supplied packages.
 
 > Note this is *not* a Docker tutorial. I assume you have a

@@ -3,14 +3,17 @@
 # Based on http://blog.palominolabs.com/2014/05/12/introduction-to-docker-with-rails/
 FROM ubuntu
 
+# Update Ubuntu
+# Install RVM dependencies
 # Install cURL PostgreSQL client lib and Node.js (for coffeescript and sass)
-# Install RVM, requirements and latest MRI
 # Create rails user
 RUN apt-get update -q &&\
     apt-get upgrade -qy &&\
+    apt-get install -qy build-essential patch gawk g++ make patch libreadline6-dev \
+      libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev \
+      automake libtool bison pkg-config libffi-dev &&\
     apt-get install -qy curl libpq-dev nodejs &&\
-    /bin/bash -c -l 'curl -sSL https://get.rvm.io | bash -s stable --ruby' &&\
-    /usr/sbin/useradd -m -s /bin/bash -g rvm rails
+    /usr/sbin/useradd -m -s /bin/bash rails
 
 # Add Rails app
 ADD . rails-app
@@ -24,6 +27,9 @@ RUN /bin/rm -f rails-app/.rvmrc rails-app/.versions.conf rails-app/.ruby-version
 # Switch to rails user
 USER rails
 ENV HOME /home/rails
+
+# Install RVM and lastest MRI
+RUN /bin/bash -c -l 'curl -sSL https://get.rvm.io | bash -s stable --ruby'
 
 WORKDIR rails-app
 

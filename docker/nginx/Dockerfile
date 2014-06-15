@@ -2,8 +2,9 @@
 FROM nginx
 
 ADD nginx.conf /etc/nginx.conf
-ADD cert.key /etc/nginx/
-ADD cert.crt /etc/nginx/
+ADD default /etc/default.site
+ADD cert.key /etc/cert.key
+ADD cert.crt /etc/cert.crt
 
 EXPOSE 80
 EXPOSE 443

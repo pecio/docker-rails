@@ -7,9 +7,11 @@ environment:
 * A PostgreSQL 9.3 database
 * An [nginx](http://nginx.org/) frontend and SSL proxy
 
-The images run latest Ubuntu (currently 14.04). The first one has
-latest MRI (currently 2.1.2) installed through RVM; the other two
-use Canonical supplied packages.
+The first two images run latest Ubuntu (currently 14.04). Rails
+application has latest MRI (currently 2.1.2) installed through RVM;
+PostgreSQL image uses Canonical supplied packages. Nginx image is the
+(Debian based) [official image](https://registry.hub.docker.com/_/nginx/)
+with custom configuration files.
 
 > Note this is *not* a Docker tutorial. I assume you have a
 > Docker environment already running. Follow the superb

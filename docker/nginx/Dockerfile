@@ -1,7 +1,7 @@
 # nginx as a frontend for a Rails application
 FROM nginx
 
-ADD default /etc/nginx/sites-enabled/default
+ADD nginx.conf /etc/nginx.conf
 ADD cert.key /etc/nginx/
 ADD cert.crt /etc/nginx/
 

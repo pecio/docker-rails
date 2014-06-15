@@ -1,16 +1,5 @@
 # nginx as a frontend for a Rails application
-FROM ubuntu:latest
-
-# Update packages
-# Install nginx
-# Redirect access_log to stdout and error_log to stderr
-# Configure nginx not to daemonize
-RUN apt-get update &&\
-    DEBIAN_FRONTEND=noninteractive apt-get upgrade -qy &&\
-    DEBIAN_FRONTEND=noninteractive apt-get install -qy nginx &&\
-    /bin/sed -i.orig '/access_log/c\access_log /proc/self/fd/1;' /etc/nginx/nginx.conf &&\
-    /bin/sed -i      '/error_log/c\error_log /proc/self/fd/2;' /etc/nginx/nginx.conf &&\
-    echo "\ndaemon off;" >> /etc/nginx/nginx.conf
+FROM nginx
 
 ADD default /etc/nginx/sites-enabled/default
 ADD cert.key /etc/nginx/
@@ -19,4 +8,4 @@ ADD cert.crt /etc/nginx/
 EXPOSE 80
 EXPOSE 443
 
-CMD ["/usr/sbin/nginx"]
+CMD ["/usr/local/sbin/nginx"]

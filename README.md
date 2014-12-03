@@ -3,8 +3,9 @@ I am creating a [Docker](https://www.docker.io/) configuration
 with three separate containers, oriented for a production
 environment:
 
-* The Rails application (under [Unicorn](http://unicorn.bogomips.org/))
-* A PostgreSQL 9.3 database
+* The [Rails](http://rubyonrails.org/) application (under
+  [Unicorn](http://unicorn.bogomips.org/))
+* A [PostgreSQL](http://www.postgresql.org/) 9.3 database
 * An [nginx](http://nginx.org/) frontend and SSL proxy
 
 The first two images run latest Ubuntu LTS (currently 14.04.1). Rails

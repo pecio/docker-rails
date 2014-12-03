@@ -7,7 +7,7 @@ environment:
 * A PostgreSQL 9.3 database
 * An [nginx](http://nginx.org/) frontend and SSL proxy
 
-The first two images run latest Ubuntu (currently 14.04). Rails
+The first two images run latest Ubuntu LTS (currently 14.04.1). Rails
 application has latest MRI (currently 2.1.5) installed through RVM;
 PostgreSQL image uses Canonical supplied packages. Nginx image is the
 (Debian based) [official image](https://registry.hub.docker.com/_/nginx/)

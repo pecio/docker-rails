@@ -9,4 +9,4 @@ ADD cert.crt /etc/cert.crt
 EXPOSE 80
 EXPOSE 443
 
-CMD ["/usr/local/sbin/nginx"]
+CMD ["nginx", "-g", "daemon off;"]

@@ -15,7 +15,7 @@ with custom configuration files.
 
 > Note this is *not* a Docker tutorial. I assume you have a
 > Docker environment already running. Follow the superb
-> [official instructions](https://www.docker.io/gettingstarted/#h_installation)
+> [official instructions](https://docs.docker.com/#installation-guides)
 > if you need to set it up.
 
 ## Build and first start instructions

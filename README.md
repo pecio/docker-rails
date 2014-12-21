@@ -63,16 +63,17 @@ need it in your environment.
 
         docker run -d -P --link rails_app:rails --volumes-from rails_app --name nginx_rails inginx_rails
 
-9. Check mapped ports by running `docker ps` (in this case, 49182 for HTTP and 49181 for HTTPS):
+9. Check mapped ports by running `docker ps` (in this case, 49153 for HTTP and 49154 for HTTPS):
 
         # docker ps
-        CONTAINER ID        IMAGE                    COMMAND                CREATED              STATUS              PORTS                                           NAMES
-        8f59b69c36b2        inginx_rails:latest      /bin/sh -c /usr/sbin   43 seconds ago       Up 6 seconds        0.0.0.0:49181->443/tcp, 0.0.0.0:49182->80/tcp   nginx_rails                                                        
-        652c1a506220        irails_app:latest        /bin/bash -c -l 'RAI   51 seconds ago       Up 14 seconds       3000/tcp                                        nginx_rails/rails,rails_app                                        
-        5640f473505d        ipostgres_rails:latest   /usr/lib/postgresql/   About a minute ago   Up 25 seconds       5432/tcp                                        nginx_rails/rails/postgresql,postgres_rails,rails_app/postgresql   
+        CONTAINER ID        IMAGE                    COMMAND                CREATED             STATUS              PORTS                                           NAMES
+        88ded649df8d        inginx_rails:latest      "nginx -g 'daemon of   2 weeks ago         Up 4 seconds        0.0.0.0:49153->80/tcp, 0.0.0.0:49154->443/tcp   nginx_rails         
+        5b048ccdbd4b        irails_app:latest        "/bin/bash -c -l 'bu   2 weeks ago         Up 5 seconds        3000/tcp                                        rails_app           
+        9da71f669478        ipostgres_rails:latest   "/usr/lib/postgresql   2 weeks ago         Up 13 seconds       5432/tcp                                        postgres_rails      
+
 
 10. Verify you can access the application by visiting https://localhost:port/,
-    e.g. https://localhost:49181/
+    e.g. https://localhost:49154/
 
 ## Stopping
 

@@ -39,6 +39,7 @@ ENV RACK_ENV production
 # Use a config file if it is there, use ours otherwise
 # Remove pg gem if present
 # Insert pg gem without version specification
+# Remove Gemfile.lock so bundler rechecks versions
 # Install bundler
 # Install bundle
 # Precompile assets
@@ -47,6 +48,7 @@ RUN /bin/grep -q "^[^#]*unicorn" Gemfile || echo 'gem "unicorn"' >> Gemfile &&\
     [ -f config/unicorn.rb ] || /bin/cp docker/extra/unicorn.rb config/unicorn.rb &&\
     /bin/sed -i.oldpg '/\bpg\b/d' Gemfile &&\
     echo 'gem "pg"' >> Gemfile &&\
+    /bin/rm -f Gemfile.lock &&\
     /bin/bash -c -l 'gem install bundler --no-ri --no-rdoc' &&\
     /bin/bash -c -l 'bundle install --without=development:test' &&\
     /bin/bash -c -l 'bundle exec rake assets:precompile' &&\

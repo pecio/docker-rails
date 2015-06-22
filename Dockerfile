@@ -28,7 +28,7 @@ USER rails
 ENV HOME /home/rails
 
 # Install RVM and lastest MRI
-RUN /bin/bash -c -l '/usr/bin/gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+RUN /bin/bash -c -l '/usr/bin/gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3 &&\
                      /usr/bin/curl -sSL https://get.rvm.io | bash -s stable --ruby'
 
 WORKDIR rails-app

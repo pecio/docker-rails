@@ -16,7 +16,7 @@ PostgreSQL image uses Canonical supplied packages. Nginx image is the
 
 > Note this is *not* a Docker tutorial. I assume you have a
 > Docker environment already running. Follow the superb
-> [official instructions](https://docs.docker.com/#installation-guides)
+> [official instructions](https://docs.docker.com/)
 > if you need to set it up.
 
 ## Build and first start instructions

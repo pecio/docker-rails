@@ -11,7 +11,7 @@ RUN apt-get update -q &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy build-essential patch \
       gawk g++ make libreadline6-dev libyaml-dev libsqlite3-dev sqlite3 \
       autoconf libgdbm-dev libncurses5-dev automake libtool bison pkg-config \
-      libffi-dev curl libpq-dev nodejs &&\
+      libffi-dev curl libpq-dev nodejs libgmp-dev &&\
     /usr/sbin/useradd -m -s /bin/bash rails
 
 # Add Rails app

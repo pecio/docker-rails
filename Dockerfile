@@ -9,7 +9,7 @@ FROM ubuntu:xenial
 RUN apt-get update -q &&\
     DEBIAN_FRONTEND=noninteractive apt-get upgrade -qy &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy build-essential patch \
-      gawk g++ make patch libreadline6-dev libyaml-dev libsqlite3-dev sqlite3 \
+      gawk g++ make libreadline6-dev libyaml-dev libsqlite3-dev sqlite3 \
       autoconf libgdbm-dev libncurses5-dev automake libtool bison pkg-config \
       libffi-dev curl libpq-dev nodejs &&\
     /usr/sbin/useradd -m -s /bin/bash rails

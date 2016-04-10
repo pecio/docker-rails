@@ -1,7 +1,7 @@
 # Dockerfile for a Rails app
 #
 # Based on http://blog.palominolabs.com/2014/05/12/introduction-to-docker-with-rails/
-FROM ubuntu:latest
+FROM ubuntu:xenial
 
 # Update Ubuntu
 # Install RVM dependencies, cURL, PostgreSQL client and Node.js (for coffeescript and sass)

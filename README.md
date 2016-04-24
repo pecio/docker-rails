@@ -33,17 +33,17 @@ need it in your environment.
 
         docker build -t irails_app .
 
-2. Enter the `/docker/postgresql` directory and build the
+2. Enter the `postgresql` directory and build the
    PostgreSQL image:
 
         docker build -t ipostgres_rails .
 
-3. Enter the `/docker/nginx` directory. Note there are two files,
+3. Enter the `nginx` directory. Note there are two files,
    `cert.key` and `cert.crt`: these are sample self-signed certificates,
    replace them with *your* certificates (with the same file names and
    without passphrase).
 
-4. From the `/docker/nginx` directory, build the nginx image:
+4. From the `nginx` directory, build the nginx image:
 
         docker build -t inginx_rails .
 

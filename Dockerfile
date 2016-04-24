@@ -19,9 +19,12 @@ ADD . rails-app
 
 # Do not use app specified ruby
 # Change ownership of directory
+# Install git if required by gemfile
 RUN /bin/rm -f rails-app/.rvmrc rails-app/.versions.conf rails-app/.ruby-version &&\
     /bin/sed -i.orig '/^[[:space:]]*ruby/d' rails-app/Gemfile &&\
-    /bin/chown -R rails rails-app
+    /bin/chown -R rails rails-app &&\
+    if /bin/grep -q github: rails-app/Gemfile ; then \
+    DEBIAN_FRONTEND=noninteractive apt-get install -qy git ; fi
 
 # Switch to rails user
 USER rails

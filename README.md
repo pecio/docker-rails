@@ -12,8 +12,8 @@ The first two images run latest Ubuntu LTS (currently 16.04). Rails
 application has latest MRI (currently 2.3.0) installed through RVM;
 PostgreSQL image uses Canonical supplied packages. Nginx image is the
 (Debian based) [official image](https://registry.hub.docker.com/_/nginx/)
-(tested with 1.9.14) with custom configuration files. As of late April
-2016, it builds and runs correctly under latest Docker (1.11.0).
+(tested with 1.9.15) with custom configuration files. As of May
+2016, it builds and runs correctly under latest Docker (1.11.1).
 
 > Note this is *not* a Docker tutorial. I assume you have a
 > Docker environment already running. Follow the superb

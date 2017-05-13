@@ -85,7 +85,7 @@ Run
 
 Run
 
-    docker start postgres_rails rails_app nginx_rails
+    docker start rails_db rails_app rails_nginx
 
 ## Running on fixed ports
 

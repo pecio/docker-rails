@@ -25,7 +25,7 @@ official images:
 Note I ommit the `sudo` in all `docker` commands: prepend it if you
 need it in your environment.
 
-1. Copy the `Dockerfile` file and `docker` directory to the _root_
+1. Copy the contents of the `app` directory to the _root_
    of your Rails application.
 
 2. Build the Rails image (this is the longest step):

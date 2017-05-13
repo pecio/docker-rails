@@ -1,3 +1,7 @@
+## 2.1 (2017-05-13)
+
+Use flexible entry point script.
+
 ## 2.0.2 (2017-05-13)
 
 Further README fixes and updates.

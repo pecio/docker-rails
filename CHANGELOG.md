@@ -1,3 +1,11 @@
+## 2.0.2 (2017-05-13)
+
+Further README fixes and updates.
+
+## 2.0.1 (2017-05-13)
+
+README fixes and updates.
+
 ## 2.0 (2017-05-13)
 
 Huge rework.

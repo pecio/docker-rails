@@ -40,10 +40,12 @@ need it in your environment.
    Allow some time for the database to be created and started before
    launching `rake db:migrate` to populate it later.
 
-4. Enter the `nginx` directory. Note there are two files,
-   `cert.key` and `cert.crt`: these are sample self-signed certificates,
-   replace them with *your* certificates (with the same file names and
-   without passphrase).
+4. Enter the `nginx` directory.
+   - There are two files, `cert.key` and `cert.crt`: these are sample
+     self-signed certificates, replace them with *your* certificates
+     (with the same file names and without passphrase).
+   - Review default.site. In particular, you may want to change
+     `server_name localhost;` to a better value.
 
 5. From the `nginx` directory, build the nginx image:
 

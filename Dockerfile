@@ -13,8 +13,10 @@ ADD . rails-app
 
 # Do not use app specified ruby
 # Change ownership of directory
+# Install entry point script
 RUN /bin/sed -i.orig '/^[[:space:]]*ruby/d' rails-app/Gemfile &&\
-    /bin/chown -R rails rails-app
+    /bin/chown -R rails rails-app &&\
+    /bin/cp /rails-app/docker/docker-rails-entrypoint.sh /usr/local/bin
 
 # Switch to rails user
 USER rails
@@ -43,5 +45,5 @@ RUN /bin/grep -q "^[^#]*unicorn" Gemfile || echo 'gem "unicorn"' >> Gemfile &&\
 EXPOSE 3000
 VOLUME ["/rails-app/public", "/rails-app/logs"]
 
-# Setup command
-CMD ["/bin/sh", "-c", "-l", "bundle exec unicorn -p 3000 -c config/unicorn.rb"]
+# Setup entry point
+ENTRYPOINT ["docker-rails-entrypoint.sh"]

@@ -16,7 +16,7 @@ ADD . rails-app
 # Install entry point script
 RUN /bin/sed -i.orig '/^[[:space:]]*ruby/d' rails-app/Gemfile &&\
     /bin/chown -R rails rails-app &&\
-    /bin/cp /rails-app/docker/docker-rails-entrypoint.sh /usr/local/bin
+    /bin/cp /rails-app/docker/rails-entrypoint.sh /usr/local/bin
 
 # Switch to rails user
 USER rails
@@ -46,5 +46,5 @@ EXPOSE 3000
 VOLUME ["/rails-app/public", "/rails-app/logs"]
 
 # Setup entry point
-ENTRYPOINT ["docker-rails-entrypoint.sh"]
+ENTRYPOINT ["rails-entrypoint.sh"]
 CMD ["unicorn", "-p", "3000", "-c", "config/unicorn.rb"]

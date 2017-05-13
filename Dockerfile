@@ -2,6 +2,8 @@
 #
 FROM ruby:alpine
 
+# Create rails user to exec application
+# Install needed Alpine packages
 RUN /usr/sbin/adduser -D -s /bin/sh rails &&\
     /sbin/apk --no-cache add make gcc libc-dev linux-headers tzdata \
                              postgresql-dev sqlite-dev git nodejs

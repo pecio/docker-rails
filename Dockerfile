@@ -1,39 +1,22 @@
 # Dockerfile for a Rails app
 #
-# Based on http://blog.palominolabs.com/2014/05/12/introduction-to-docker-with-rails/
-FROM ubuntu:xenial
+FROM ruby:alpine
 
-# Update Ubuntu
-# Install RVM dependencies, cURL, PostgreSQL client and Node.js (for coffeescript and sass)
-# Create rails user
-RUN apt-get update -q &&\
-    DEBIAN_FRONTEND=noninteractive apt-get upgrade -qy &&\
-    DEBIAN_FRONTEND=noninteractive apt-get install -qy build-essential patch \
-      gawk g++ make libreadline6-dev libyaml-dev libsqlite3-dev sqlite3 \
-      autoconf libgdbm-dev libncurses5-dev automake libtool bison pkg-config \
-      libffi-dev curl libpq-dev nodejs libgmp-dev &&\
-    /usr/sbin/useradd -m -s /bin/bash rails
+RUN /usr/sbin/adduser -D -s /bin/sh rails &&\
+    /sbin/apk --no-cache add make gcc libc-dev linux-headers tzdata \
+                             postgresql-dev sqlite-dev git nodejs
 
 # Add Rails app
 ADD . rails-app
 
 # Do not use app specified ruby
 # Change ownership of directory
-# Install git if required by gemfile
-RUN /bin/rm -f rails-app/.rvmrc rails-app/.versions.conf rails-app/.ruby-version &&\
-    /bin/sed -i.orig '/^[[:space:]]*ruby/d' rails-app/Gemfile &&\
-    /bin/chown -R rails rails-app &&\
-    if /bin/grep -q github: rails-app/Gemfile ; then \
-    DEBIAN_FRONTEND=noninteractive apt-get install -qy git ; fi
+RUN /bin/sed -i.orig '/^[[:space:]]*ruby/d' rails-app/Gemfile &&\
+    /bin/chown -R rails rails-app
 
 # Switch to rails user
 USER rails
 ENV HOME /home/rails
-
-# Install RVM and lastest MRI
-RUN /bin/bash -c -l '/usr/bin/gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3 &&\
-                     /usr/bin/curl -sSL https://get.rvm.io | bash -s stable --ruby'
-
 WORKDIR rails-app
 
 ENV RACK_ENV production
@@ -44,7 +27,6 @@ ENV RACK_ENV production
 # Insert pg gem without version specification
 # Overwrite DB config
 # Remove Gemfile.lock so bundler rechecks versions
-# Install bundler
 # Install bundle
 # Precompile assets
 RUN /bin/grep -q "^[^#]*unicorn" Gemfile || echo 'gem "unicorn"' >> Gemfile &&\
@@ -53,13 +35,12 @@ RUN /bin/grep -q "^[^#]*unicorn" Gemfile || echo 'gem "unicorn"' >> Gemfile &&\
     echo 'gem "pg"' >> Gemfile &&\
     /bin/cp -f docker/extra/database.yml config/database.yml &&\
     /bin/rm -f Gemfile.lock &&\
-    /bin/bash -c -l 'gem install bundler --no-ri --no-rdoc' &&\
-    /bin/bash -c -l 'bundle install --without=development:test' &&\
-    /bin/bash -c -l 'bundle exec rake assets:precompile'
+    /bin/sh -c -l 'bundle install --without=development:test' &&\
+    /bin/sh -c -l 'bundle exec rake assets:precompile'
 
 # Expose app
 EXPOSE 3000
 VOLUME ["/rails-app/public", "/rails-app/logs"]
 
 # Setup command
-CMD ["/bin/bash", "-c", "-l", "bundle exec unicorn -p 3000 -c config/unicorn.rb"]
+CMD ["/bin/sh", "-c", "-l", "bundle exec unicorn -p 3000 -c config/unicorn.rb"]

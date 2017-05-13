@@ -5,15 +5,15 @@ environment:
 
 * The [Rails](http://rubyonrails.org/) application (under
   [Unicorn](http://unicorn.bogomips.org/))
-* A [PostgreSQL](http://www.postgresql.org/) 9.3 database
+* A [PostgreSQL](http://www.postgresql.org/) database
 * An [nginx](http://nginx.org/) frontend and SSL proxy
 
-The first two images run latest Ubuntu LTS (currently 16.04). Rails
-application has latest MRI (currently 2.3.0) installed through RVM;
-PostgreSQL image uses Canonical supplied packages. Nginx image is the
-(Debian based) [official image](https://registry.hub.docker.com/_/nginx/)
-(tested with 1.9.15) with custom configuration files. As of May
-2016, it builds and runs correctly under latest Docker (1.11.1).
+The three images are base upon alpine variants of the following
+official images:
+
+* [ruby:alpine](https://hub.docker.com/_/ruby/)
+* [postgres:alpine](https://hub.docker.com/_/postgres/)
+* [nginx:stable-alpine](https://hub.docker.com/_/nginx/)
 
 > Note this is *not* a Docker tutorial. I assume you have a
 > Docker environment already running. Follow the superb
@@ -28,59 +28,58 @@ need it in your environment.
 0. Copy the `Dockerfile` file and `docker` directory to the _root_
    of your Rails application.
 
-1. In the _root_ of the Rails application, build the Rails image
-   (this is the longest step):
+1. Build the Rails image (this is the longest step):
 
-        docker build -t irails_app .
+        docker build -t rails_app /path/to/your/app
 
-2. Enter the `postgresql` directory and build the
-   PostgreSQL image:
+2. Build the PostgreSQL image:
 
-        docker build -t ipostgres_rails .
+        docker build -t rails_db postgres
 
-3. Enter the `nginx` directory. Note there are two files,
+3. Start the PostgreSQL image:
+
+        docker run -d --name rails_db rails_db
+
+4. Enter the `nginx` directory. Note there are two files,
    `cert.key` and `cert.crt`: these are sample self-signed certificates,
    replace them with *your* certificates (with the same file names and
    without passphrase).
 
-4. From the `nginx` directory, build the nginx image:
+5. From the `nginx` directory, build the nginx image:
 
-        docker build -t inginx_rails .
-
-5. Start the PostgreSQL image:
-
-        docker run -d --name postgres_rails ipostgres_rails
+        docker build -t rails_nginx .
 
 6. Populate the DB with a one shot run of rake in the Rails image with the
    following long command:
 
-        docker run -t -i --rm --link postgres_rails:postgresql irails_app /bin/bash -c -l "bundle exec rake db:migrate"
+        docker run -t -i --rm --link rails_db:db rails_app /bin/sh -c -l "bundle exec rake db:migrate"
 
-7. Start the Rails application server:
+7. Start the Rails application server, replacing `YOUR_SECRET` with
+   a random string of your choice.
 
-        docker run -d --link postgres_rails:postgresql --name rails_app irails_app
+        docker run -d --link rails_db:db --name rails_app -e SECRET_KEY_BASE=YOUR_SECRET rails_app
 
 8. Start the nginx server:
 
-        docker run -d -P --link rails_app:rails --volumes-from rails_app --name nginx_rails inginx_rails
+        docker run -d -P --link rails_app:rails --volumes-from rails_app --name rails_nginx rails_nginx
 
-9. Check mapped ports by running `docker ps` (in this case, 49153 for HTTP and 49154 for HTTPS):
+9. Check mapped ports by running `docker ps` (in this case, 32769
+   for HTTP and 32768 for HTTPS):
 
         # docker ps
-        CONTAINER ID        IMAGE                    COMMAND                CREATED             STATUS              PORTS                                           NAMES
-        88ded649df8d        inginx_rails:latest      "nginx -g 'daemon of   2 weeks ago         Up 4 seconds        0.0.0.0:49153->80/tcp, 0.0.0.0:49154->443/tcp   nginx_rails         
-        5b048ccdbd4b        irails_app:latest        "/bin/bash -c -l 'bu   2 weeks ago         Up 5 seconds        3000/tcp                                        rails_app           
-        9da71f669478        ipostgres_rails:latest   "/usr/lib/postgresql   2 weeks ago         Up 13 seconds       5432/tcp                                        postgres_rails      
-
+        CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                           NAMES
+        e66a6c7b7c48        rails_nginx         "nginx -g 'daemon off"   20 minutes ago      Up 20 minutes       0.0.0.0:32769->80/tcp, 0.0.0.0:32768->443/tcp   rails_nginx
+        de5b5b34f3dd        rails_app           "/bin/sh -c -l 'bundl"   21 minutes ago      Up 21 minutes       3000/tcp                                        rails_app
+        0e6284aed5cd        rails_db            "docker-entrypoint.sh"   28 minutes ago      Up 28 minutes       5432/tcp                                        rails_db
 
 10. Verify you can access the application by visiting https://localhost:port/,
-    e.g. https://localhost:49154/
+    e.g. https://localhost:32768/
 
 ## Stopping
 
 Run
 
-    docker stop nginx_rails rails_app postgres_rails
+    docker stop rails_nginx rails_app rails_db
 
 ## Subsequent starts
 
@@ -96,12 +95,11 @@ starting the nginx image.
 Remove the container, if you started it with `-P` as instructed above,
 with
 
-    docker stop nginx_rails
-    docker rm nginx_rails
+    docker rm -f rails_nginx
 
 To start the nginx container in the standard ports, run
 
-    docker run -d -p 80:80 -p 443:443 --link rails_app:rails --volumes-from rails_app --name nginx_rails inginx_rails
+    docker run -d -p 80:80 -p 443:443 --link rails_app:rails --volumes-from rails_app --name rails_nginx rails_nginx
 
 This will make the container listen in all host interfaces.
 Change the ports before the colons (:) if you want specific but

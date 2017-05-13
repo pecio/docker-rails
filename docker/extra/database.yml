@@ -1,7 +1,7 @@
 production:
   adapter: postgresql
   encoding: unicode
-  host: postgresql
+  host: db
   database: rails
   pool: 5
   username: rails

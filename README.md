@@ -25,20 +25,20 @@ official images:
 Note I ommit the `sudo` in all `docker` commands: prepend it if you
 need it in your environment.
 
-0. Copy the `Dockerfile` file and `docker` directory to the _root_
+1. Copy the `Dockerfile` file and `docker` directory to the _root_
    of your Rails application.
 
-1. Build the Rails image (this is the longest step):
+2. Build the Rails image (this is the longest step):
 
         docker build -t rails_app /path/to/your/app
 
-2. Build the PostgreSQL image:
+3. Build the PostgreSQL image and start the container:
 
         docker build -t rails_db postgres
-
-3. Start the PostgreSQL image:
-
         docker run -d --name rails_db rails_db
+
+   Allow some time for the database to be created and started before
+   launching `rake db:migrate` to populate it later.
 
 4. Enter the `nginx` directory. Note there are two files,
    `cert.key` and `cert.crt`: these are sample self-signed certificates,

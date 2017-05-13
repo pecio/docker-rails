@@ -30,10 +30,10 @@ ENV RACK_ENV production
 # Install bundle
 # Precompile assets
 RUN /bin/grep -q "^[^#]*unicorn" Gemfile || echo 'gem "unicorn"' >> Gemfile &&\
-    [ -f config/unicorn.rb ] || /bin/cp docker/extra/unicorn.rb config/unicorn.rb &&\
+    [ -f config/unicorn.rb ] || /bin/cp docker/config/unicorn.rb config/unicorn.rb &&\
     /bin/sed -i.oldpg '/\bpg\b/d' Gemfile &&\
     echo 'gem "pg"' >> Gemfile &&\
-    /bin/cp -f docker/extra/database.yml config/database.yml &&\
+    /bin/cp -f docker/config/database.yml config/database.yml &&\
     /bin/rm -f Gemfile.lock &&\
     /bin/sh -c -l 'bundle install --without=development:test' &&\
     /bin/sh -c -l 'bundle exec rake assets:precompile'

@@ -52,9 +52,9 @@ need it in your environment.
         docker build -t rails_nginx .
 
 6. Populate the DB with a one shot run of rake in the Rails image with the
-   following long command:
+   following command:
 
-        docker run -t -i --rm --link rails_db:db rails_app /bin/sh -c -l "bundle exec rake db:migrate"
+        docker run -t --rm --link rails_db:db rails_app rake db:migrate
 
 7. Start the Rails application server, replacing `YOUR_SECRET` with
    a random string of your choice.

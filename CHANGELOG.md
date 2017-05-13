@@ -12,7 +12,7 @@ Huge rework.
 
   - Application container no longer based in ubuntu:latest + RVM,
     switched to ruby:alpine. This results in image going from
-    ~1 GiB to a little more than 100 MiB for a trivial Rails
+    ~1 GiB to a little more than 300 MiB for a trivial Rails
     application.
   - PostgreSQL container no longer using ubuntu:latest, instead
     based on postgres:alpine (quite trivial)

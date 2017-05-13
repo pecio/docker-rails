@@ -19,7 +19,7 @@ RUN /bin/sed -i.orig '/^[[:space:]]*ruby/d' rails-app/Gemfile &&\
 # Switch to rails user
 USER rails
 ENV HOME /home/rails
-WORKDIR rails-app
+WORKDIR /rails-app
 
 ENV RACK_ENV production
 

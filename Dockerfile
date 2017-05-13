@@ -18,10 +18,9 @@ RUN /bin/sed -i.orig '/^[[:space:]]*ruby/d' rails-app/Gemfile &&\
 
 # Switch to rails user
 USER rails
-ENV HOME /home/rails
 WORKDIR /rails-app
 
-ENV RACK_ENV production
+ENV RACK_ENV=production HOME=/home/rails
 
 # Inject unicorn (if not there)
 # Use a config file if it is there, use ours otherwise

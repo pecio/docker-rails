@@ -47,3 +47,4 @@ VOLUME ["/rails-app/public", "/rails-app/logs"]
 
 # Setup entry point
 ENTRYPOINT ["docker-rails-entrypoint.sh"]
+CMD ["unicorn", "-p", "3000", "-c", "config/unicorn.rb"]

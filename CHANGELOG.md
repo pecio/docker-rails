@@ -1,3 +1,7 @@
+## 2.2.1 (2017-05-14)
+
+Simplify Puma configuration.
+
 ## 2.2 (2017-05-14)
 
 Switch from Unicorn to Puma.

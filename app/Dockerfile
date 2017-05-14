@@ -22,7 +22,7 @@ RUN /bin/sed -i.orig '/^[[:space:]]*ruby/d' rails-app/Gemfile &&\
 USER rails
 WORKDIR /rails-app
 
-ENV RACK_ENV=production HOME=/home/rails
+ENV RACK_ENV=production HOME=/home/rails PORT=3000
 
 # Inject puma (if not there)
 # Use a config file if it is there, use ours otherwise
@@ -47,4 +47,4 @@ VOLUME ["/rails-app/public", "/rails-app/logs"]
 
 # Setup entry point
 ENTRYPOINT ["rails-entrypoint.sh"]
-CMD ["unicorn", "-p", "3000", "-c", "config/unicorn.rb"]
+CMD ["puma", "-b", "tcp://0.0.0.0:3000", "-C", "config/puma.rb"]

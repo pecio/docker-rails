@@ -25,6 +25,7 @@ WORKDIR /rails-app
 ENV RACK_ENV=production HOME=/home/rails PORT=3000
 
 # Inject puma (if not there)
+# Remove and reinject listen
 # Use a config file if it is there, use ours otherwise
 # Remove pg gem if present
 # Insert pg gem without version specification
@@ -32,7 +33,9 @@ ENV RACK_ENV=production HOME=/home/rails PORT=3000
 # Remove Gemfile.lock so bundler rechecks versions
 # Install bundle
 # Precompile assets
-RUN /bin/grep -q "^[^#]*puma" Gemfile || echo 'gem "puma"' >> Gemfile &&\
+RUN /bin/grep -q "^[^#]*\bpuma\b" Gemfile || echo 'gem "puma"' >> Gemfile &&\
+    /bin/sed -i.oldlisten '/\blisten\b/d' Gemfile &&\
+    echo 'gem "listen"' >> Gemfile &&\
     [ -f config/puma.rb ] || /bin/cp docker/config/puma.rb config/puma.rb &&\
     /bin/sed -i.oldpg '/\bpg\b/d' Gemfile &&\
     echo 'gem "pg"' >> Gemfile &&\

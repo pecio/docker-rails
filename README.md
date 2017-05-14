@@ -4,12 +4,11 @@ with three separate containers, oriented for a production
 environment:
 
 * The [Rails](http://rubyonrails.org/) application (under
-  [Unicorn](http://unicorn.bogomips.org/))
+  [Puma](https://github.com/puma/puma))
 * A [PostgreSQL](http://www.postgresql.org/) database
 * An [nginx](http://nginx.org/) frontend and SSL proxy
 
-The three images are base upon alpine variants of the following
-official images:
+The three images are base upon alpine variants of official images:
 
 * [ruby:alpine](https://hub.docker.com/_/ruby/)
 * [postgres:alpine](https://hub.docker.com/_/postgres/)
@@ -44,7 +43,7 @@ need it in your environment.
    - There are two files, `cert.key` and `cert.crt`: these are sample
      self-signed certificates, replace them with *your* certificates
      (with the same file names and without passphrase).
-   - Review default.site. In particular, you may want to change
+   - Review `default.site`. In particular, you may want to change
      `server_name localhost;` to a better value.
 
 5. From the `nginx` directory, build the nginx image:

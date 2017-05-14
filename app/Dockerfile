@@ -34,10 +34,10 @@ ENV RACK_ENV=production HOME=/home/rails PORT=3000
 # Install bundle
 # Precompile assets
 RUN /bin/grep -q "^[^#]*\bpuma\b" Gemfile || echo 'gem "puma"' >> Gemfile &&\
-    /bin/sed -i.oldlisten '/\blisten\b/d' Gemfile &&\
+    /bin/sed -i '/\blisten\b/d' Gemfile &&\
     echo 'gem "listen"' >> Gemfile &&\
     [ -f config/puma.rb ] || /bin/cp docker/config/puma.rb config/puma.rb &&\
-    /bin/sed -i.oldpg '/\bpg\b/d' Gemfile &&\
+    /bin/sed -i '/\bpg\b/d' Gemfile &&\
     echo 'gem "pg"' >> Gemfile &&\
     /bin/cp -f docker/config/database.yml config/database.yml &&\
     /bin/rm -f Gemfile.lock &&\

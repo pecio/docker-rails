@@ -24,7 +24,7 @@ WORKDIR /rails-app
 
 ENV RACK_ENV=production HOME=/home/rails
 
-# Inject unicorn (if not there)
+# Inject puma (if not there)
 # Use a config file if it is there, use ours otherwise
 # Remove pg gem if present
 # Insert pg gem without version specification
@@ -32,8 +32,8 @@ ENV RACK_ENV=production HOME=/home/rails
 # Remove Gemfile.lock so bundler rechecks versions
 # Install bundle
 # Precompile assets
-RUN /bin/grep -q "^[^#]*unicorn" Gemfile || echo 'gem "unicorn"' >> Gemfile &&\
-    [ -f config/unicorn.rb ] || /bin/cp docker/config/unicorn.rb config/unicorn.rb &&\
+RUN /bin/grep -q "^[^#]*puma" Gemfile || echo 'gem "puma"' >> Gemfile &&\
+    [ -f config/puma.rb ] || /bin/cp docker/config/puma.rb config/puma.rb &&\
     /bin/sed -i.oldpg '/\bpg\b/d' Gemfile &&\
     echo 'gem "pg"' >> Gemfile &&\
     /bin/cp -f docker/config/database.yml config/database.yml &&\

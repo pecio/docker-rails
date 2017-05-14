@@ -6,7 +6,7 @@ FROM ruby:alpine
 # Install needed Alpine packages
 RUN /usr/sbin/adduser -D -s /bin/sh rails &&\
     /sbin/apk --no-cache add make gcc libc-dev linux-headers tzdata \
-                             postgresql-dev sqlite-dev git nodejs
+                             postgresql-dev git nodejs
 
 # Add Rails app
 ADD . rails-app
@@ -27,6 +27,7 @@ ENV RACK_ENV=production HOME=/home/rails PORT=3000
 # Inject puma (if not there)
 # Remove and reinject listen
 # Use a config file if it is there, use ours otherwise
+# Remove sqlite3 gem if present
 # Remove pg gem if present
 # Insert pg gem without version specification
 # Overwrite DB config
@@ -37,6 +38,7 @@ RUN /bin/grep -q "^[^#]*\bpuma\b" Gemfile || echo 'gem "puma"' >> Gemfile &&\
     /bin/sed -i '/\blisten\b/d' Gemfile &&\
     echo 'gem "listen"' >> Gemfile &&\
     [ -f config/puma.rb ] || /bin/cp docker/config/puma.rb config/puma.rb &&\
+    /bin/sed -i '/\bsqlite3\b/d' Gemfile &&\
     /bin/sed -i '/\bpg\b/d' Gemfile &&\
     echo 'gem "pg"' >> Gemfile &&\
     /bin/cp -f docker/config/database.yml config/database.yml &&\

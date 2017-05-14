@@ -50,4 +50,4 @@ VOLUME ["/rails-app/public", "/rails-app/logs"]
 
 # Setup entry point
 ENTRYPOINT ["rails-entrypoint.sh"]
-CMD ["puma", "-b", "tcp://0.0.0.0:3000", "-C", "config/puma.rb"]
+CMD ["puma", "-p", "3000", "-C", "config/puma.rb"]

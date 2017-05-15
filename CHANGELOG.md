@@ -1,3 +1,8 @@
+## 2.2.2 (2017-05-15)
+
+Puma was starting in development environment and hence database access
+was failing.
+
 ## 2.2.1 (2017-05-14)
 
 Simplify Puma configuration.
